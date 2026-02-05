@@ -68,12 +68,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------- MUSIC (USER-CONTROLLED & RELIABLE) ----------------
+# ---------------- MUSIC (FIXED & WORKING) ----------------
 if st.session_state.music:
     st.audio(
-        "https://cdn.pixabay.com/audio/2022/11/09/audio_9cfa0c1a9c.mp3",
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+        format="audio/mp3",
         loop=True
     )
     st.caption("🎶 soft music, just in the background")
+
 
 # ---------------- STEP 0 : ENTRY ----------------
 if st.session_state.step == 0:
