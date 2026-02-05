@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 
 st.set_page_config(page_title="Only For You 💖", layout="centered")
 
@@ -7,71 +8,64 @@ if "step" not in st.session_state:
     st.session_state.step = 0
 if "name" not in st.session_state:
     st.session_state.name = ""
+if "music" not in st.session_state:
+    st.session_state.music = False
 
-# ---------------- GLOBAL STYLES ----------------
+# ---------------- STYLES ----------------
 st.markdown("""
 <style>
 body {
-    background: linear-gradient(135deg, #ffe6eb, #fff0f5);
+    background: linear-gradient(135deg, #ffe6eb, #fff5f8);
 }
 h1, h2, h3 {
-    font-family: 'Trebuchet MS', sans-serif;
+    font-family: 'Georgia', serif;
     text-align: center;
 }
-.floating-hearts {
-    position: fixed;
-    bottom: -50px;
-    animation: floatUp 8s infinite ease-in;
-    font-size: 24px;
+.fade {
+    animation: fadeIn 2s ease-in;
 }
-@keyframes floatUp {
-    0% {transform: translateY(0); opacity: 0;}
-    20% {opacity: 1;}
-    100% {transform: translateY(-800px); opacity: 0;}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 #no-btn {
     position: absolute;
     animation: float 3s ease-in-out infinite;
 }
 @keyframes float {
-    0% {transform: translate(0, 0);}
-    50% {transform: translate(30px, -20px);}
-    100% {transform: translate(0, 0);}
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-20px);}
+    100% {transform: translateY(0);}
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- FLOATING HEARTS ----------------
-st.markdown("""
-<div class="floating-hearts" style="left:10%;">💖</div>
-<div class="floating-hearts" style="left:40%;">💕</div>
-<div class="floating-hearts" style="left:70%;">💗</div>
-""", unsafe_allow_html=True)
+# ---------------- MUSIC (USER-ACTIVATED) ----------------
+if st.session_state.music:
+    st.audio(
+        "https://cdn.pixabay.com/audio/2023/03/28/audio_4b0b3a8e6c.mp3",
+        loop=True,
+    )
+    st.caption("🎶 soft music just for you")
 
-# ---------------- ROMANTIC MUSIC ----------------
-st.markdown("""
-<audio autoplay loop>
-<source src="https://cdn.pixabay.com/audio/2022/10/25/audio_3f7c1fa65c.mp3" type="audio/mp3">
-</audio>
-""", unsafe_allow_html=True)
-
-# ---------------- STEP 0 : SECRET ENTRY ----------------
+# ---------------- STEP 0 ----------------
 if st.session_state.step == 0:
-    st.markdown("<h1>🌸 Hey Beautiful 🌸</h1>", unsafe_allow_html=True)
-    password = st.text_input("Only enter if you are *khushi khushi* 💕", type="password")
+    st.markdown("<h1 class='fade'>🌸 Hey you 🌸</h1>", unsafe_allow_html=True)
+    st.markdown("<h3>This page only opens for one person.</h3>", unsafe_allow_html=True)
 
-    if password:
-        if password.lower() == "khushi khushi":
-            st.success("Hehe… welcome 😌")
-            if st.button("Come closer 💌"):
-                st.session_state.step = 1
-                st.rerun()
-        else:
-            st.error("Nope 😌 This place isn’t for everyone")
+    password = st.text_input("Say the magic words 💕", type="password")
 
-# ---------------- STEP 1 : NAME ----------------
+    if password.lower() == "khushi khushi":
+        if st.button("Enter 💖"):
+            st.session_state.music = True
+            st.session_state.step = 1
+            st.rerun()
+    elif password:
+        st.error("Not for everyone 😌")
+
+# ---------------- STEP 1 ----------------
 elif st.session_state.step == 1:
-    st.markdown("<h1>💬 One small thing first…</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='fade'>Before anything…</h1>", unsafe_allow_html=True)
     name = st.text_input("What should he call you? 🥺")
 
     if name and st.button("Okay 💕"):
@@ -79,13 +73,13 @@ elif st.session_state.step == 1:
         st.session_state.step = 2
         st.rerun()
 
-# ---------------- STEP 2 : THE QUESTION ----------------
+# ---------------- STEP 2 ----------------
 elif st.session_state.step == 2:
     st.markdown(
         f"""
-        <h1>{st.session_state.name} 💖</h1>
-        <h2>Be honest…</h2>
-        <h2>Are you Shubham’s girlfriend? 😏</h2>
+        <h1 class='fade'>{st.session_state.name} 💖</h1>
+        <h2>One honest question…</h2>
+        <h2>Are you Shubham’s girlfriend?</h2>
         """,
         unsafe_allow_html=True
     )
@@ -105,20 +99,20 @@ elif st.session_state.step == 2:
         <script>
         function escape() {
             const btn = document.getElementById("no-btn");
-            const x = Math.random() * window.innerWidth * 0.6;
-            const y = Math.random() * window.innerHeight * 0.6;
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
             btn.style.left = x + "px";
             btn.style.top = y + "px";
         }
         </script>
         """, unsafe_allow_html=True)
 
-# ---------------- STEP 3 : FINAL LOVE ----------------
+# ---------------- STEP 3 ----------------
 elif st.session_state.step == 3:
     st.markdown(
         f"""
-        <h1>💖 Okay {st.session_state.name}…</h1>
-        <h2>You already know this…</h2>
+        <h1 class='fade'>Okay {st.session_state.name}…</h1>
+        <h2>This part is obvious but still…</h2>
 
         <h1>
         He calls you<br><br>
@@ -128,13 +122,11 @@ elif st.session_state.step == 3:
         </h1>
 
         <h1 style="color:#e60073;">
-        and always…<br><br>
+        and most importantly…<br><br>
         M I N E ❤️
         </h1>
 
-        <h3>— forever & always</h3>
+        <h3>— and he means it.</h3>
         """,
         unsafe_allow_html=True
     )
-
-
