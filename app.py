@@ -67,15 +67,15 @@ st.markdown("""
 <div class="heart" style="left:70%;">💕</div>
 """, unsafe_allow_html=True)
 
-# ---------------- MUSIC (USER-CONTROLLED & RELIABLE) ----------------
 # ---------------- MUSIC (FIXED & WORKING) ----------------
+# ---------------- MUSIC (HIDDEN, WORKING) ----------------
 if st.session_state.music:
-    st.audio(
-        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
-        format="audio/mp3",
-        loop=True
-    )
-    st.caption("🎶 soft music, just in the background")
+    st.markdown("""
+    <audio autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" type="audio/mpeg">
+    </audio>
+    """, unsafe_allow_html=True)
+
 
 
 # ---------------- STEP 0 : ENTRY ----------------
